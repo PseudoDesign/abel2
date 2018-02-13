@@ -22,7 +22,7 @@ guest_info:
   # for Xenial and later
   default_user: vagrant
   # The root folder of the project, relative to the Vagrantfile
-  project_root: abel
+  project_root: abel2
 features:
   # Package manager will use apt-get (on debian) to fetch packages
   - name: package_manager
