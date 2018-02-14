@@ -26,6 +26,12 @@ class Client:
                     self.is_connected = True
 
     def execute_op(self, op, **op_kwargs):
+        """
+        Request the 'op' parameter with the given op_kwargs
+        :param op:
+        :param op_kwargs:
+        :return:
+        """
         self.connect()
         local_op = self.esi_app.op[op](**op_kwargs)
         return self.esi_client.request(local_op)

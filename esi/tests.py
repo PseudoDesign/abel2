@@ -1,6 +1,7 @@
 from unittest import TestCase
-from unittest.mock import MagicMock
+from unittest.mock import MagicMock, patch
 from esi.client import Client
+import esi
 
 
 class TestClient(TestCase):
@@ -44,4 +45,12 @@ class TestClient(TestCase):
 class TestQueries(TestCase):
     def test_get_items(self):
         pass
+
+    @patch("esi.queries.client")
+    def test_get_item_groups(self, client):
+        client.execute_op.return_value = "item_groups"
+        return_value = esi.queries.item_groups()
+        client.execute_op.assert_called_with('get_markets_groups')
+        self.assertEqual(return_value, "item_groups")
+
 
