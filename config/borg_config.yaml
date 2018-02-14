@@ -22,13 +22,13 @@ guest_info:
   # for Xenial and later
   default_user: vagrant
   # The root folder of the project, relative to the Vagrantfile
-  project_root: abel2
+  project_root: abel
 features:
   # Package manager will use apt-get (on debian) to fetch packages
   - name: package_manager
-    target: python3.6 default-jre maven default-jdk
+    target: python3.6
   - name: pip
     environment: python3.6
-    target: django django-rest-swagger certifi six python_dateutil urllib3
+    target: django esipy
   - name: django
     test_port: '8000'
