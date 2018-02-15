@@ -9,9 +9,8 @@ def items(request):
     :param request:
     :return:
     """
-    items = esi.queries.items()
     context = {
-        'table_entries': items
+        'table_entries': esi.queries.item_groups()
     }
     return render(request, 'market/basic_table.html', context)
 
