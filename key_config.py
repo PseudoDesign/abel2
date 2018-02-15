@@ -17,6 +17,6 @@ def load(filename, required_keys):
         except yaml.YAMLError:
             raise IOError("Unable to open key/config file: {0}".format(filename))
     for k in required_keys:
-        if k['name'] not in keys:
+        if keys is None or k['name'] not in keys:
             raise ValueError("Required key {0} was not found in {1}".format(k['name'], filename))
     return keys

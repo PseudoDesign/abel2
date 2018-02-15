@@ -1,12 +1,25 @@
 from threading import Lock
+from esipy import App, EsiClient, EsiSecurity
+import key_config
+import inspect
+import os
 
 
 class Client:
 
-    def __init__(self):
+    DEFAULT_CONFIG_FILE = r"config/keys/esi_client_keys.yaml"
+
+    CONFIG_REQUIREMENTS = [
+        {"name": "swagger_spec_url", "description": "The URL of the swagger spec you wish to run against"},
+        {"name": "esi_user_agent", "description": "A description of what your application is"},
+    ]
+
+    def __init__(self, config_file=DEFAULT_CONFIG_FILE):
         self.esi_app = None
         self.esi_client = None
         self.is_connected = False
+        self.config = None
+        self.config_file = config_file
         self._lock = Lock()
 
     def connect(self):
@@ -37,5 +50,28 @@ class Client:
         return self.esi_client.request(local_op)
 
     def _open(self):
-        pass
+        """
+        Initialize EsiPy
+        :return:
+        """
+        config = key_config.load(self.config_file, self.CONFIG_REQUIREMENTS)
+
+        esiapp = App.create(config.ESI_SWAGGER_JSON)
+
+        # init the security object
+        '''
+        esisecurity = EsiSecurity(
+            app=esiapp,
+            redirect_uri=config.ESI_CALLBACK,
+            client_id=config.ESI_CLIENT_ID,
+            secret_key=config.ESI_SECRET_KEY,
+        )
+        '''
+
+        # init the client
+        esiclient = EsiClient(
+        #    security=esisecurity,
+            cache=None,
+            headers={'User-Agent': config.ESI_USER_AGENT}
+        )
 

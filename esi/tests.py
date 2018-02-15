@@ -41,6 +41,9 @@ class TestClient(TestCase):
         client.esi_app.op[op].assert_called_with(**op_args)
         client.esi_client.request.assert_called_with("internal_op")
 
+    def test__open(self):
+        pass
+
 
 class TestQueries(TestCase):
     def test_get_items(self):
