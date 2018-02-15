@@ -56,7 +56,7 @@ class Client:
         """
         config = key_config.load(self.config_file, self.CONFIG_REQUIREMENTS)
 
-        esiapp = App.create(config.ESI_SWAGGER_JSON)
+        self.esi_app = App.create(config.ESI_SWAGGER_JSON)
 
         # init the security object
         '''
@@ -69,7 +69,7 @@ class Client:
         '''
 
         # init the client
-        esiclient = EsiClient(
+        self.esi_client = EsiClient(
         #    security=esisecurity,
             cache=None,
             headers={'User-Agent': config.ESI_USER_AGENT}
