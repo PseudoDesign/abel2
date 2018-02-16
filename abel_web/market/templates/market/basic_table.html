@@ -1,3 +1,7 @@
 This is the basic table
 
-{{ table_entries }}
+<ul>
+{% for e in table_entries %}
+    <li>{{ e }}</li>
+{% endfor %}
+</ul>

@@ -51,9 +51,16 @@ class TestQueries(TestCase):
 
     @patch("esi.queries.client")
     def test_get_item_groups(self, client):
-        client.execute_op.return_value = "item_groups"
+        client.execute_op.return_value.data = "item_groups"
         return_value = esi.queries.item_groups()
         client.execute_op.assert_called_with('get_markets_groups')
         self.assertEqual(return_value, "item_groups")
+
+    @patch("esi.queries.client")
+    def test_get_item_group_info(self, client):
+        client.execute_op.return_value = "group_info"
+        return_value = esi.queries.item_group_info(13)
+        client.execute_op.assert_called_with('get_markets_groups_market_group_id', market_group_id=13)
+        self.assertEqual(return_value, "group_info")
 
 
