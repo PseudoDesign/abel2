@@ -1,6 +1,8 @@
 from threading import Lock
 from esipy import App, EsiClient, EsiSecurity
 import key_config
+from esipy.cache import FileCache
+
 
 class Client:
 
@@ -55,6 +57,8 @@ class Client:
 
         self.esi_app = App.create(config['swagger_spec_url'])
 
+        cache = FileCache(path="/tmp")
+
         # init the security object
         '''
         esisecurity = EsiSecurity(
@@ -68,7 +72,7 @@ class Client:
         # init the client
         self.esi_client = EsiClient(
         #    security=esisecurity,
-            cache=None,
+            cache=cache,
             headers={'User-Agent': config['esi_user_agent']}
         )
 
