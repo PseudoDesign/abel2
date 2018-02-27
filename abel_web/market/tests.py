@@ -3,7 +3,7 @@ from django.urls import reverse
 from unittest.mock import patch
 
 
-class TestRegionView(TestCase):
+class TestRegionsView(TestCase):
     @patch("esi.queries.regions")
     @patch("esi.queries.region_info")
     @patch("esi.queries.constellation_info")
@@ -13,10 +13,10 @@ class TestRegionView(TestCase):
         regions.return_value = ["region_id_1", "region_id_2"]
         self.client = Client()
 
-    def test_root_response_returns_table_entry_of_regions(self):
-        self.response = self.client.get(reverse('market:regions'))
+    def test_response_returns_table_entry_of_regions(self):
+        response = self.client.get(reverse('market:regions'))
         self.assertEqual(
-            self.response.context['table_entries'],
+            response.context['table_entries'],
             [
                 {
                     'id': "region_id_1",
@@ -30,3 +30,7 @@ class TestRegionView(TestCase):
                 }
             ]
         )
+
+    def test_root_response_returns_status_200(self):
+        response = self.client.get(reverse('market:regions'))
+        self.assertEqual(response.status_code, 200)

@@ -16,3 +16,11 @@ def items(request):
     }
     return render(request, 'market/basic_table.html', context)
 
+
+def regions(request):
+    """
+
+    :param request:
+    :return:
+    """
+    pass
