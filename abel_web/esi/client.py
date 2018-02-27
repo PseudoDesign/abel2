@@ -6,7 +6,7 @@ from esipy.cache import FileCache
 
 class Client:
 
-    DEFAULT_CONFIG_FILE = r"config/keys/esi_client_keys.yaml"
+    DEFAULT_CONFIG_FILE = r"../config/keys/esi_client_keys.yaml"
 
     CONFIG_REQUIREMENTS = [
         {"name": "swagger_spec_url", "description": "The URL of the swagger spec you wish to run against"},
