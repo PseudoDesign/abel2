@@ -76,3 +76,31 @@ class TestQueries(TestCase):
         return_value = esi.queries.region_info(13)
         client.execute_op.assert_called_with('get_universe_regions_region_id', region_id=13)
         self.assertEqual(return_value, "region_info")
+
+    @patch("esi.queries.client")
+    def test_get_constellations(self, client):
+        client.execute_op.return_value.data = "constellations"
+        return_value = esi.queries.constellations()
+        client.execute_op.assert_called_with('get_universe_constellations')
+        self.assertEqual(return_value, "constellations")
+
+    @patch("esi.queries.client")
+    def test_get_constellation_info(self, client):
+        client.execute_op.return_value.data = "constellation_info"
+        return_value = esi.queries.constellation_info(13)
+        client.execute_op.assert_called_with('get_universe_constellations_constellation_id', constellation_id=13)
+        self.assertEqual(return_value, "constellation_info")
+
+    @patch("esi.queries.client")
+    def test_get_systems(self, client):
+        client.execute_op.return_value.data = "systems"
+        return_value = esi.queries.systems()
+        client.execute_op.assert_called_with('get_universe_systems')
+        self.assertEqual(return_value, "systems")
+
+    @patch("esi.queries.client")
+    def test_get_system_info(self, client):
+        client.execute_op.return_value.data = "system_info"
+        return_value = esi.queries.system_info(13)
+        client.execute_op.assert_called_with('get_universe_systems_system_id', system_id=13)
+        self.assertEqual(return_value, "system_info")
