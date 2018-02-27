@@ -58,9 +58,21 @@ class TestQueries(TestCase):
 
     @patch("esi.queries.client")
     def test_get_item_group_info(self, client):
-        client.execute_op.return_value = "group_info"
+        client.execute_op.return_value.data = "group_info"
         return_value = esi.queries.item_group_info(13)
         client.execute_op.assert_called_with('get_markets_groups_market_group_id', market_group_id=13)
         self.assertEqual(return_value, "group_info")
 
+    @patch("esi.queries.client")
+    def test_get_regions(self, client):
+        client.execute_op.return_value.data = "regions"
+        return_value = esi.queries.regions()
+        client.execute_op.assert_called_with('get_universe_regions')
+        self.assertEqual(return_value, "regions")
 
+    @patch("esi.queries.client")
+    def test_get_region_info(self, client):
+        client.execute_op.return_value.data = "region_info"
+        return_value = esi.queries.region_info(13)
+        client.execute_op.assert_called_with('get_universe_regions_region_id', region_id=13)
+        self.assertEqual(return_value, "region_info")
