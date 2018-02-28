@@ -1,9 +1,9 @@
 from threading import Lock
 from esipy import App, EsiClient, EsiSecurity
 import key_config
-from esipy.cache import FileCache
 import memcache
 from esipy.cache import MemcachedCache
+
 
 class Client:
 
@@ -11,7 +11,7 @@ class Client:
 
     CONFIG_REQUIREMENTS = [
         {"name": "swagger_spec_url", "description": "The URL of the swagger spec you wish to run against"},
-        {"name": "esi_user_agent", "description": "A description of what your application is"},
+        {"name": "esi_user_agent", "description": "A description of your application"},
     ]
 
     def __init__(self, config_file=DEFAULT_CONFIG_FILE):

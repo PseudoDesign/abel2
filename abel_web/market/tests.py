@@ -32,3 +32,15 @@ class TestRegionsView(TestCase):
 
     def test_response_returns_status_200(self):
         self.assertEqual(self.response.status_code, 200)
+
+
+class TestRegionView(TestCase):
+    @patch("esi.queries.region_info")
+    @patch("esi.queries.constellation_info")
+    def setUp(self, constellation_info, region_info):
+        self.region_info = MagicMock()
+        self.constellation_info = MagicMock()
+        constellation_info.return_value = self.constellation_info
+        region_info.return_value = self.region_info
+        self.client = Client()
+        self.response = reverse("market:region", kwargs={'region_id': 1})
