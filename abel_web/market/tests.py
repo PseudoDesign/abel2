@@ -38,15 +38,19 @@ class TestRegionView(TestCase):
     @patch("esi.queries.region_info")
     @patch("esi.queries.constellation_info")
     def setUp(self, constellation_info, region_info):
-        self.region_info = MagicMock()
+        self.region_info = {
+            'name': "Region Name",
+            'description': "a whole bunch of text",
+            'constellations': [1, 2]
+        }
         self.constellation_info = MagicMock()
         constellation_info.return_value = self.constellation_info
         region_info.return_value = self.region_info
-        region_info['constellations'] = [1, 2]
         self.client = Client()
         self.response = self.client.get(reverse("market:region", kwargs={'region_id': 1}))
 
     def test_response_returns_table_entry_of_regions(self):
+        self.maxDiff = None
         self.assertEqual(
             self.response.context['entries'],
             [
@@ -70,12 +74,12 @@ class TestRegionView(TestCase):
                         {
                             'id': 1,
                             'info': self.constellation_info['name'],
-                            'url': reverse("market:constellation", kwargs={'region_id': 1}),
+                            'url': reverse("market:constellation", kwargs={'constellation_id': 1}),
                         },
                         {
                             'id': 2,
                             'info': self.constellation_info['name'],
-                            'url': reverse("market:constellation", kwargs={'region_id': 2}),
+                            'url': reverse("market:constellation", kwargs={'constellation_id': 2}),
                         }
                     ]
                 }

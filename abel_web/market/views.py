@@ -45,7 +45,40 @@ def region(request, region_id):
     :param region_id:
     :return:
     """
-    pass
+    region_info = esi.queries.region_info(region_id)
+    constellations = []
+    c = region_info['constellations']
+    for constellation_id in region_info['constellations']:
+        constellations.append({
+            'id': constellation_id,
+            'info': esi.queries.constellation_info(constellation_id)['name'],
+            'url': reverse("market:constellation", kwargs={'constellation_id': constellation_id})
+        })
+
+    entries = [
+        {
+            'type': 'id',
+            'value': region_id
+        },
+        {
+            'type': 'title',
+            'value': region_info['name']
+        },
+        {
+            'type': 'text',
+            'title': 'Description',
+            'value': region_info['description']
+        },
+        {
+            'type': 'list',
+            'title': 'Constellations',
+            'value': constellations
+        }
+    ]
+    context = {
+        'entries': entries,
+    }
+    return render(request, 'market/basic.html', context)
 
 
 def constellation(request, constellation_id):
