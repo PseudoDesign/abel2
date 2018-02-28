@@ -1,6 +1,6 @@
 from unittest import TestCase
 from unittest.mock import MagicMock, patch
-from esi.client import Client
+from .client import Client
 import esi
 
 
