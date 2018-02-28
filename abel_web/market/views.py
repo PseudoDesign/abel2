@@ -36,3 +36,13 @@ def regions(request):
         'table_entries': table_entries,
     }
     return render(request, 'market/basic_table.html', context)
+
+
+def region(request, region_id):
+    """
+
+    :param request:
+    :param region_id:
+    :return:
+    """
+    pass
