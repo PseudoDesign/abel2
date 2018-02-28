@@ -40,9 +40,19 @@ def regions(request):
 
 def region(request, region_id):
     """
-
+    Displays information about the region using the "basic.html" template
     :param request:
     :param region_id:
+    :return:
+    """
+    pass
+
+
+def constellation(request, constellation_id):
+    """
+    Displays information about the constellation using the "basic.html" template
+    :param request:
+    :param constellation_id:
     :return:
     """
     pass
