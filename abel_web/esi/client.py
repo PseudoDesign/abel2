@@ -2,7 +2,8 @@ from threading import Lock
 from esipy import App, EsiClient, EsiSecurity
 import key_config
 from esipy.cache import FileCache
-
+import memcache
+from esipy.cache import MemcachedCache
 
 class Client:
 
@@ -57,7 +58,8 @@ class Client:
 
         self.esi_app = App.create(config['swagger_spec_url'])
 
-        cache = FileCache(path="/tmp")
+        mc = memcache.Client(['127.0.0.1:11211'], debug=0)
+        cache = MemcachedCache(memcache_client=mc)
 
         # init the security object
         '''

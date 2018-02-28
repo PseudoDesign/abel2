@@ -29,6 +29,6 @@ features:
     target: python3.6
   - name: pip
     environment: python3.6
-    target: django esipy diskcache
+    target: django esipy diskcache python-memcached
   - name: django
     test_port: '8000'

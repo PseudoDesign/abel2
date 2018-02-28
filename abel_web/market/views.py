@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.urls import reverse
 import esi
 
 
@@ -19,8 +20,19 @@ def items(request):
 
 def regions(request):
     """
-
+    Generates a basic table with descriptions of all regions.  url points to that region's page
     :param request:
     :return:
     """
-    pass
+    region_ids = esi.queries.regions()
+    table_entries = []
+    for region_id in region_ids:
+        table_entries.append({
+            'id': region_id,
+            'info': esi.queries.region_info(region_id)['name'],
+            'url': reverse("market:region", kwargs={'region_id': region_id})
+        })
+    context = {
+        'table_entries': table_entries,
+    }
+    return render(request, 'market/basic_table.html', context)

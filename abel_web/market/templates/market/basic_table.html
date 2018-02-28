@@ -1,7 +1,5 @@
-This is the basic table
-
 <ul>
 {% for e in table_entries %}
-    <li>{{ e }}</li>
+    <li><a {% if e.url %}href="{{ e.url }}"{% endif %}>{{ e.info }}</a> </li>
 {% endfor %}
 </ul>
