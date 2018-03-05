@@ -34,6 +34,70 @@ class TestRegionsView(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
 
+class TestConstellationView(TestCase):
+    @patch("esi.queries.region_info")
+    @patch("esi.queries.constellation_info")
+    @patch("esi.queries.system_info")
+    def setUp(self, system_info, constellation_info, region_info):
+        self.region_info = MagicMock()
+        region_info.return_value = self.region_info
+        self.constellation_info = {
+            'name': "Constellation Name",
+            'region_id': 1,
+            'position': {
+                'x': 1,
+                'y': 2.2,
+                'z': -1.33,
+            },
+            'systems': [3, 5]
+        }
+        self.system_info = MagicMock()
+        system_info.return_value = self.system_info
+        constellation_info.return_value = self.constellation_info
+        self.client = Client()
+        self.response = self.client.get(reverse("market:constellation", kwargs={'constellation_id': 13}))
+
+    def test_response_returns_entry_of_constellation_info(self):
+        self.maxDiff = None
+        self.assertEqual(
+            self.response.context['entries'],
+            [
+                {
+                    'type': 'id',
+                    'value': 13
+                },
+                {
+                    'type': 'coord',
+                    'title': 'Position',
+                    'value': {
+                        'x': 1,
+                        'y': 2.2,
+                        'z': -1.33
+                    }
+                },
+                {
+                    'type': 'list',
+                    'title': 'Systems',
+                    'value': [
+                        {
+                            'id': 3,
+                            'info': self.constellation_info['name'],
+                            'url': reverse("market:system", kwargs={'system_id': 3}),
+                        },
+                        {
+                            'id': 5,
+                            'info': self.constellation_info['name'],
+                            'url': reverse("market:system", kwargs={'system_id': 5}),
+                        }
+                    ]
+                }
+            ]
+        )
+        self.assertEqual(
+            self.response.context['title'],
+            "Constellation Name"
+        )
+
 class TestRegionView(TestCase):
     @patch("esi.queries.region_info")
     @patch("esi.queries.constellation_info")
@@ -49,7 +113,7 @@ class TestRegionView(TestCase):
         self.client = Client()
         self.response = self.client.get(reverse("market:region", kwargs={'region_id': 1}))
 
-    def test_response_returns_table_entry_of_regions(self):
+    def test_response_returns_entry_of_region_info(self):
         self.maxDiff = None
         self.assertEqual(
             self.response.context['entries'],
