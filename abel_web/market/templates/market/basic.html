@@ -2,16 +2,18 @@
 <h2>{{ title }}</h2>
 <table>
 {% for e in entries %}
+    <tr>
+    <td><b>{{ e.title }}</b></td>
      {% if e.type == 'text' %}
-        <tr>
-            <td><b>{{ e.title }}</b></td>
-            <td>{{ e.value }}</td>
-        </tr>
+         <td>{{ e.value }}</td>
+    {% endif %}
+    {% if e.type == 'coord' %}
+        <td>{% include "market/basic_coord.html" with coord=e.value %}</td>
     {% endif %}
     {% if e.type == 'list' %}
-        <td><b>{{ e.title }}</b></td>
         <td>{% include "market/basic_list.html" with table_entries=e.value %}</td>
     {% endif %}
+    </tr>
 {% endfor %}
 </table>
 </ul>
