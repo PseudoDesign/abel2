@@ -141,6 +141,7 @@ def system(request, system_id):
     stations = []
     stargates = []
     for planet_id in system_info['planets']:
+        planet_id = planet_id['planet_id']
         planets.append({
             'id': planet_id,
             'info': esi.queries.planet_info(planet_id)['name']
