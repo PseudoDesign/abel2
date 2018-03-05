@@ -34,6 +34,137 @@ class TestRegionsView(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
 
+class TestSystemView(TestCase):
+    @patch("esi.queries.station_info")
+    @patch("esi.queries.stargate_info")
+    @patch("esi.queries.planet_info")
+    @patch("esi.queries.constellation_info")
+    @patch("esi.queries.system_info")
+    def setUp(self, system_info, constellation_info, planet_info, stargate_info, station_info):
+        self.system_info = {
+            'name': "System Name",
+            'constellation_id': 42,
+            'position': {
+                'x': 1,
+                'y': 2,
+                'z': -3,
+            },
+            'security_status': .5,
+            'stations': [1, 2, 3],
+            'planets': [1, 2],
+            'stargates': [1, 2, 3, 4],
+        }
+        self.constellation_info = MagicMock()
+        self.planet_info = MagicMock()
+        self.stargate_info = MagicMock()
+        self.station_info = MagicMock()
+        system_info.return_value = self.system_info
+        constellation_info.return_value = self.constellation_info
+        planet_info.return_value = self.planet_info
+        stargate_info.return_value = self.stargate_info
+        station_info.return_value = self.station_info
+        self.client = Client()
+        self.response = self.client.get(reverse("market:system", kwargs={'system_id': 14}))
+
+    def test_response_returns_entry_of_system_info(self):
+        self.assertEqual(
+            self.response.context['entries'],
+            [
+                {
+                    'type': 'id',
+                    'value': 14
+                },
+                {
+                    'type': 'text',
+                    'title': 'Security Status',
+                    'value': self.system_info['security_status'],
+                },
+                {
+                    'type': 'text',
+                    'title': 'Constellation',
+                    'value': self.constellation_info['name'],
+                    'url': reverse("market:constellation", kwargs={'constellation_id': 42})
+                },
+                {
+                    'type': 'coord',
+                    'title': 'Position',
+                    'value': {
+                        'x': 1,
+                        'y': 2,
+                        'z': -3
+                    }
+                },
+                {
+                    'type': 'list',
+                    'title': 'Stations',
+                    'value': [
+                        {
+                            'id': 1,
+                            'info': self.station_info['name'],
+                            'url': reverse("market:station", kwargs={'station_id': 1}),
+                        },
+                        {
+                            'id': 2,
+                            'info': self.station_info['name'],
+                            'url': reverse("market:station", kwargs={'station_id': 2}),
+                        },
+                        {
+                            'id': 3,
+                            'info': self.station_info['name'],
+                            'url': reverse("market:station", kwargs={'station_id': 3}),
+                        }
+                    ]
+                },
+                {
+                    'type': 'list',
+                    'title': 'Planets',
+                    'value': [
+                        {
+                            'id': 1,
+                            'info': self.planet_info['name'],
+                            'url': reverse("market:planet", kwargs={'planet_id': 1}),
+                        },
+                        {
+                            'id': 2,
+                            'info': self.planet_info['name'],
+                            'url': reverse("market:planet", kwargs={'planet_id': 2}),
+                        }
+                    ]
+                },
+                {
+                    'type': 'list',
+                    'title': 'Stargates',
+                    'value': [
+                        {
+                            'id': 1,
+                            'info': self.stargate_info['name'],
+                            'url': reverse("market:stargate", kwargs={'stargate_id': 1}),
+                        },
+                        {
+                            'id': 2,
+                            'info': self.stargate_info['name'],
+                            'url': reverse("market:stargate", kwargs={'stargate_id': 2}),
+                        },
+                        {
+                            'id': 3,
+                            'info': self.stargate_info['name'],
+                            'url': reverse("market:stargate", kwargs={'stargate_id': 1}),
+                        },
+                        {
+                            'id': 4,
+                            'info': self.stargate_info['name'],
+                            'url': reverse("market:stargate", kwargs={'stargate_id': 2}),
+                        }
+                    ]
+                }
+            ]
+        )
+        self.assertEqual(
+            self.response.context['title'],
+            "System Name"
+        )
+
+
 class TestConstellationView(TestCase):
     @patch("esi.queries.region_info")
     @patch("esi.queries.constellation_info")
