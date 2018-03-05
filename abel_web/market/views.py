@@ -134,4 +134,36 @@ def system(request, system_id):
     :param system_id:
     :return:
     """
+    system_info = esi.queries.system_info(system_id)
+    constellation_info = esi.queries.constellation_info(system_info['constellation_id'])
+    planets = []
+    stations = []
+    stargates = []
+    for planet_id in system_info['planets']:
+        planets.append({
+            'id': planet_id,
+            'info': esi.queries.planet_info(planet_id)['name']
+        })
+    for station_id in system_info['stations']:
+        stations.append({
+            'id': station_id,
+            'info': esi.queries.station_info(station_id)['name'],
+            'url': reverse("market:station", kwargs={'station_id': station_id})
+        })
+    for stargate_id in system_info['stargates']:
+        destination_id = esi.queries.stargate_info(stargate_id)['destination']['system_id']
+        stargates.append({
+            'id': stargate_id,
+            'info': esi.queries.system_info(destination_id)['name'],
+            'url': reverse("market:system", kwargs={'system_id': destination_id})
+        })
+
+
+def station(request, station_id):
+    """
+    Displays information about the station
+    :param request:
+    :param station_id:
+    :return:
+    """
     pass

@@ -56,7 +56,12 @@ class TestSystemView(TestCase):
         }
         self.constellation_info = MagicMock()
         self.planet_info = MagicMock()
-        self.stargate_info = MagicMock()
+        self.stargate_info = {
+            'destination': {
+                'system_id': 42
+            },
+            'name': "Destination Station"
+        }
         self.station_info = MagicMock()
         system_info.return_value = self.system_info
         constellation_info.return_value = self.constellation_info
@@ -101,17 +106,17 @@ class TestSystemView(TestCase):
                         {
                             'id': 1,
                             'info': self.station_info['name'],
-                            'url': reverse("market:station", kwargs={'station_id': 1}),
+                            'url': reverse("market:station", kwargs={'station_id': self.stargate_info['destination']['system_id']}),
                         },
                         {
                             'id': 2,
                             'info': self.station_info['name'],
-                            'url': reverse("market:station", kwargs={'station_id': 2}),
+                            'url': reverse("market:station", kwargs={'station_id': self.stargate_info['destination']['system_id']}),
                         },
                         {
                             'id': 3,
                             'info': self.station_info['name'],
-                            'url': reverse("market:station", kwargs={'station_id': 3}),
+                            'url': reverse("market:station", kwargs={'station_id': self.stargate_info['destination']['system_id']}),
                         }
                     ]
                 },
@@ -122,12 +127,12 @@ class TestSystemView(TestCase):
                         {
                             'id': 1,
                             'info': self.planet_info['name'],
-                            'url': reverse("market:planet", kwargs={'planet_id': 1}),
+                            # 'url': reverse("market:planet", kwargs={'planet_id': 1}),
                         },
                         {
                             'id': 2,
                             'info': self.planet_info['name'],
-                            'url': reverse("market:planet", kwargs={'planet_id': 2}),
+                            # 'url': reverse("market:planet", kwargs={'planet_id': 2}),
                         }
                     ]
                 },
@@ -137,23 +142,23 @@ class TestSystemView(TestCase):
                     'value': [
                         {
                             'id': 1,
-                            'info': self.stargate_info['name'],
-                            'url': reverse("market:stargate", kwargs={'stargate_id': 1}),
+                            'info': "System Name",
+                            'url': reverse("market:system", kwargs={'system_id': 1}),
                         },
                         {
                             'id': 2,
-                            'info': self.stargate_info['name'],
-                            'url': reverse("market:stargate", kwargs={'stargate_id': 2}),
+                            'info': "System Name",
+                            'url': reverse("market:system", kwargs={'system_id': 2}),
                         },
                         {
                             'id': 3,
-                            'info': self.stargate_info['name'],
-                            'url': reverse("market:stargate", kwargs={'stargate_id': 1}),
+                            'info': "System Name",
+                            'url': reverse("market:system", kwargs={'system_id': 1}),
                         },
                         {
                             'id': 4,
-                            'info': self.stargate_info['name'],
-                            'url': reverse("market:stargate", kwargs={'stargate_id': 2}),
+                            'info': "System Name",
+                            'url': reverse("market:system", kwargs={'system_id': 2}),
                         }
                     ]
                 }
