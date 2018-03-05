@@ -104,3 +104,25 @@ class TestQueries(TestCase):
         return_value = esi.queries.system_info(13)
         client.execute_op.assert_called_with('get_universe_systems_system_id', system_id=13)
         self.assertEqual(return_value, "system_info")
+
+    @patch("esi.queries.client")
+    def test_get_planet_info(self, client):
+        client.execute_op.return_value.data = "planet_info"
+        return_value = esi.queries.planet_info(13)
+        client.execute_op.assert_called_with('get_universe_planets_planet_id', planet_id=13)
+        self.assertEqual(return_value, "planet_info")
+
+    @patch("esi.queries.client")
+    def test_get_stargate_info(self, client):
+        client.execute_op.return_value.data = "stargate_info"
+        return_value = esi.queries.stargate_info(13)
+        client.execute_op.assert_called_with('get_universe_stargates_stargate_id', stargate_id=13)
+        self.assertEqual(return_value, "stargate_info")
+
+    @patch("esi.queries.client")
+    def test_get_station_info(self, client):
+        client.execute_op.return_value.data = "station_info"
+        return_value = esi.queries.station_info(13)
+        client.execute_op.assert_called_with('get_universe_stations_station_id', station_id=13)
+        self.assertEqual(return_value, "station_info")
+

@@ -36,12 +36,12 @@ def system_info(system_id):
 
 
 def planet_info(planet_id):
-    pass
+    return client.execute_op('get_universe_planets_planet_id', planet_id=planet_id).data
 
 
 def stargate_info(stargate_id):
-    pass
+    return client.execute_op('get_universe_stargates_stargate_id', stargate_id=stargate_id).data
 
 
 def station_info(station_id):
-    pass
+    return client.execute_op('get_universe_stations_station_id', station_id=station_id).data
