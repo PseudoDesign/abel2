@@ -67,6 +67,12 @@ class TestConstellationView(TestCase):
                     'value': 13
                 },
                 {
+                    'type': 'link',
+                    'title': 'Region',
+                    'text': self.region_info['name'],
+                    'url': reverse("market:region", kwargs={'region_id': 1})
+                },
+                {
                     'type': 'coord',
                     'title': 'Position',
                     'value': {

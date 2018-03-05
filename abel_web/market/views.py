@@ -85,6 +85,8 @@ def constellation(request, constellation_id):
     :return:
     """
     constellation_info = esi.queries.constellation_info(constellation_id)
+    region_id = constellation_info['region_id']
+    region_name = esi.queries.region_info(region_id)['name']
     systems = []
     for system_id in constellation_info['systems']:
         systems.append({
@@ -96,6 +98,12 @@ def constellation(request, constellation_id):
         {
             'type': 'id',
             'value': constellation_id
+        },
+        {
+            'type': 'link',
+            'title': 'Region',
+            'text': region_name,
+            'url': reverse("market:region", kwargs={'region_id': region_id})
         },
         {
             'type': 'coord',
