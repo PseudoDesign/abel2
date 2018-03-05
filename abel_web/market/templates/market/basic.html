@@ -1,10 +1,17 @@
 <ul>
+<h2>{{ title }}</h2>
+<table>
 {% for e in entries %}
-    {% if e.type == 'title' %}
-        <h2>{{ e.value }}</h2>
-    {% endif %}
      {% if e.type == 'text' %}
-        <h2>{{ e.value }}</h2>
+        <tr>
+            <td><b>{{ e.title }}</b></td>
+            <td>{{ e.value }}</td>
+        </tr>
+    {% endif %}
+    {% if e.type == 'list' %}
+        <td><b>{{ e.title }}</b></td>
+        <td>{% include "market/basic_list.html" with table_entries=e.value %}</td>
     {% endif %}
 {% endfor %}
+</table>
 </ul>
