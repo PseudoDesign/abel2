@@ -81,12 +81,12 @@ class TestConstellationView(TestCase):
                     'value': [
                         {
                             'id': 3,
-                            'info': self.constellation_info['name'],
+                            'info': self.system_info['name'],
                             'url': reverse("market:system", kwargs={'system_id': 3}),
                         },
                         {
                             'id': 5,
-                            'info': self.constellation_info['name'],
+                            'info': self.system_info['name'],
                             'url': reverse("market:system", kwargs={'system_id': 5}),
                         }
                     ]
@@ -97,6 +97,7 @@ class TestConstellationView(TestCase):
             self.response.context['title'],
             "Constellation Name"
         )
+
 
 class TestRegionView(TestCase):
     @patch("esi.queries.region_info")

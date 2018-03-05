@@ -47,7 +47,6 @@ def region(request, region_id):
     """
     region_info = esi.queries.region_info(region_id)
     constellations = []
-    c = region_info['constellations']
     for constellation_id in region_info['constellations']:
         constellations.append({
             'id': constellation_id,
@@ -83,6 +82,48 @@ def constellation(request, constellation_id):
     Displays information about the constellation using the "basic.html" template
     :param request:
     :param constellation_id:
+    :return:
+    """
+    constellation_info = esi.queries.constellation_info(constellation_id)
+    systems = []
+    for system_id in constellation_info['systems']:
+        systems.append({
+            'id': system_id,
+            'info': esi.queries.system_info(system_id)['name'],
+            'url': reverse("market:system", kwargs={'system_id': system_id})
+        })
+    entries = [
+        {
+            'type': 'id',
+            'value': constellation_id
+        },
+        {
+            'type': 'coord',
+            'title': 'Position',
+            'value': {
+                'x': constellation_info['position']['x'],
+                'y': constellation_info['position']['y'],
+                'z': constellation_info['position']['z']
+            }
+        },
+        {
+            'type': 'list',
+            'title': "Systems",
+            'value': systems
+        }
+    ]
+    context = {
+        'title': constellation_info['name'],
+        'entries': entries
+    }
+    return render(request, 'market/basic.html', context)
+
+
+def system(request, system_id):
+    """
+    Displays information about the system using the "basic.html" template
+    :param request:
+    :param system_id:
     :return:
     """
     pass
