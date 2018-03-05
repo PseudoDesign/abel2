@@ -5,7 +5,7 @@
     <tr>
     <td><b>{{ e.title }}</b></td>
      {% if e.type == 'text' %}
-         <td>{{ e.value }}</td>
+         <td><a {% if e.url %}href="{{ e.url }}" {% endif %}> {{ e.value }} </a></td>
     {% endif %}
     {% if e.type == 'coord' %}
         <td>{% include "market/basic_coord.html" with coord=e.value %}</td>

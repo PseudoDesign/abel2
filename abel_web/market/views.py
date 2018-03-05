@@ -100,9 +100,9 @@ def constellation(request, constellation_id):
             'value': constellation_id
         },
         {
-            'type': 'link',
+            'type': 'text',
             'title': 'Region',
-            'text': region_name,
+            'value': region_name,
             'url': reverse("market:region", kwargs={'region_id': region_id})
         },
         {

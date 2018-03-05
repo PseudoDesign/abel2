@@ -67,9 +67,9 @@ class TestConstellationView(TestCase):
                     'value': 13
                 },
                 {
-                    'type': 'link',
+                    'type': 'text',
                     'title': 'Region',
-                    'text': self.region_info['name'],
+                    'value': self.region_info['name'],
                     'url': reverse("market:region", kwargs={'region_id': 1})
                 },
                 {
