@@ -59,10 +59,6 @@ class TestRegionView(TestCase):
                     'value': 1
                 },
                 {
-                    'type': 'title',
-                    'value': self.region_info['name']
-                },
-                {
                     'type': 'text',
                     'title': 'Description',
                     'value': self.region_info['description']
@@ -84,6 +80,10 @@ class TestRegionView(TestCase):
                     ]
                 }
             ]
+        )
+        self.assertEqual(
+            self.response.context['title'],
+            "Region Name"
         )
 
     def test_response_returns_status_200(self):

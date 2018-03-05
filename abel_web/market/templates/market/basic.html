@@ -1,5 +1,10 @@
 <ul>
 {% for e in entries %}
-    <li>{{ e }}</li>
+    {% if e.type == 'title' %}
+        <h2>{{ e.value }}</h2>
+    {% endif %}
+     {% if e.type == 'text' %}
+        <h2>{{ e.value }}</h2>
+    {% endif %}
 {% endfor %}
 </ul>

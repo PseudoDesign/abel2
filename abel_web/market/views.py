@@ -15,7 +15,7 @@ def items(request):
     context = {
         'table_entries': item_group_info
     }
-    return render(request, 'market/basic_table.html', context)
+    return render(request, 'market/basic_list.html', context)
 
 
 def regions(request):
@@ -35,7 +35,7 @@ def regions(request):
     context = {
         'table_entries': table_entries,
     }
-    return render(request, 'market/basic_table.html', context)
+    return render(request, 'market/basic_list.html', context)
 
 
 def region(request, region_id):
@@ -61,10 +61,6 @@ def region(request, region_id):
             'value': region_id
         },
         {
-            'type': 'title',
-            'value': region_info['name']
-        },
-        {
             'type': 'text',
             'title': 'Description',
             'value': region_info['description']
@@ -77,6 +73,7 @@ def region(request, region_id):
     ]
     context = {
         'entries': entries,
+        'title': region_info['name']
     }
     return render(request, 'market/basic.html', context)
 
