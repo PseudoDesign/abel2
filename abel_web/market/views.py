@@ -135,7 +135,8 @@ def system(request, system_id):
     :return:
     """
     system_info = esi.queries.system_info(system_id)
-    constellation_info = esi.queries.constellation_info(system_info['constellation_id'])
+    constellation_id = system_info['constellation_id']
+    constellation_info = esi.queries.constellation_info(constellation_id)
     planets = []
     stations = []
     stargates = []
@@ -153,10 +154,57 @@ def system(request, system_id):
     for stargate_id in system_info['stargates']:
         destination_id = esi.queries.stargate_info(stargate_id)['destination']['system_id']
         stargates.append({
-            'id': stargate_id,
+            'id': destination_id,
             'info': esi.queries.system_info(destination_id)['name'],
             'url': reverse("market:system", kwargs={'system_id': destination_id})
         })
+    entries = [
+        {
+            'type': 'id',
+            'value': system_id
+        },
+        {
+            'type': 'text',
+            'title': 'Security Status',
+            'value': system_info['security_status']
+        },
+        {
+            'type': 'text',
+            'title': 'Constellation',
+            'value': constellation_info['name'],
+            'url': reverse("market:constellation", kwargs={'constellation_id': constellation_id})
+        },
+        {
+            'type': 'coord',
+            'title': 'Position',
+            'value': {
+                'x': system_info['position']['x'],
+                'y': system_info['position']['y'],
+                'z': system_info['position']['z']
+            }
+        },
+        {
+            'type': 'list',
+            'title': "Stations",
+            'value': stations
+        },
+        {
+            'type': 'list',
+            'title': "Planets",
+            'value': planets
+        },
+        {
+            'type': 'list',
+            'title': "Stargates",
+            'value': stargates
+        }
+
+    ]
+    context = {
+        'title': system_info['name'],
+        'entries': entries
+    }
+    return render(request, 'market/basic.html', context)
 
 
 def station(request, station_id):

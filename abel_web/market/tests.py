@@ -72,6 +72,7 @@ class TestSystemView(TestCase):
         self.response = self.client.get(reverse("market:system", kwargs={'system_id': 14}))
 
     def test_response_returns_entry_of_system_info(self):
+        self.maxDiff = None
         self.assertEqual(
             self.response.context['entries'],
             [
@@ -106,17 +107,17 @@ class TestSystemView(TestCase):
                         {
                             'id': 1,
                             'info': self.station_info['name'],
-                            'url': reverse("market:station", kwargs={'station_id': self.stargate_info['destination']['system_id']}),
+                            'url': reverse("market:station", kwargs={'station_id': 1}),
                         },
                         {
                             'id': 2,
                             'info': self.station_info['name'],
-                            'url': reverse("market:station", kwargs={'station_id': self.stargate_info['destination']['system_id']}),
+                            'url': reverse("market:station", kwargs={'station_id': 2}),
                         },
                         {
                             'id': 3,
                             'info': self.station_info['name'],
-                            'url': reverse("market:station", kwargs={'station_id': self.stargate_info['destination']['system_id']}),
+                            'url': reverse("market:station", kwargs={'station_id': 3}),
                         }
                     ]
                 },
@@ -141,24 +142,24 @@ class TestSystemView(TestCase):
                     'title': 'Stargates',
                     'value': [
                         {
-                            'id': 1,
-                            'info': "System Name",
-                            'url': reverse("market:system", kwargs={'system_id': 1}),
+                            'id': self.stargate_info['destination']['system_id'],
+                            'info': self.system_info['name'],
+                            'url': reverse("market:system", kwargs={'system_id': self.stargate_info['destination']['system_id']}),
                         },
                         {
-                            'id': 2,
-                            'info': "System Name",
-                            'url': reverse("market:system", kwargs={'system_id': 2}),
+                            'id': self.stargate_info['destination']['system_id'],
+                            'info': self.system_info['name'],
+                            'url': reverse("market:system", kwargs={'system_id': self.stargate_info['destination']['system_id']}),
                         },
                         {
-                            'id': 3,
-                            'info': "System Name",
-                            'url': reverse("market:system", kwargs={'system_id': 1}),
+                            'id': self.stargate_info['destination']['system_id'],
+                            'info': self.system_info['name'],
+                            'url': reverse("market:system", kwargs={'system_id': self.stargate_info['destination']['system_id']}),
                         },
                         {
-                            'id': 4,
-                            'info': "System Name",
-                            'url': reverse("market:system", kwargs={'system_id': 2}),
+                            'id': self.stargate_info['destination']['system_id'],
+                            'info': self.system_info['name'],
+                            'url': reverse("market:system", kwargs={'system_id': self.stargate_info['destination']['system_id']}),
                         }
                     ]
                 }
