@@ -34,6 +34,28 @@ class TestRegionsView(TestCase):
         self.assertEqual(self.response.status_code, 200)
 
 
+class TestStationView(TestCase):
+    @patch("esi.queries.system_info")
+    @patch("esi.queries.station_info")
+    def setUp(self, station_info, system_info):
+        self.station_info = {
+            'system_id': 11,
+            'name': "Test Station",
+        }
+        self.system_info = MagicMock()
+        system_info.return_value = self.system_info
+        station_info.return_value = self.station_info
+        self.client = Client()
+        self.response = self.client.get(reverse("market:station", kwargs={'station_id': 14}))
+
+    def test_response_returns_entry_of_station_info(self):
+        self.assertEqual(
+            self.response.context['entries'],
+            [
+            ]
+        )
+
+
 class TestSystemView(TestCase):
     @patch("esi.queries.station_info")
     @patch("esi.queries.stargate_info")
