@@ -41,6 +41,11 @@ class TestStationView(TestCase):
         self.station_info = {
             'system_id': 11,
             'name': "Test Station",
+            'position': {
+                'x': 1,
+                'y': 2,
+                'z': -3,
+            },
         }
         self.system_info = MagicMock()
         system_info.return_value = self.system_info
@@ -52,7 +57,30 @@ class TestStationView(TestCase):
         self.assertEqual(
             self.response.context['entries'],
             [
+                {
+                    'type': 'id',
+                    'value': 14
+                },
+                {
+                    'type': 'text',
+                    'title': 'System',
+                    'value': self.system_info['name'],
+                    'url': reverse("market:system", kwargs={'system_id': 11})
+                },
+                {
+                    'type': 'coord',
+                    'title': 'Position',
+                    'value': {
+                        'x': 1,
+                        'y': 2,
+                        'z': -3
+                    }
+                },
             ]
+        )
+        self.assertEqual(
+            self.response.context['title'],
+            "Test Station"
         )
 
 
@@ -73,7 +101,7 @@ class TestSystemView(TestCase):
             },
             'security_status': .5,
             'stations': [1, 2, 3],
-            'planets': [1, 2],
+            'planets': [{'planet_id': 1}, {'planet_id': 2}],
             'stargates': [1, 2, 3, 4],
         }
         self.constellation_info = MagicMock()

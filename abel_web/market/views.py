@@ -215,5 +215,32 @@ def station(request, station_id):
     :param station_id:
     :return:
     """
-    pass
+    station_info = esi.queries.station_info(station_id)
+    system_info = esi.queries.system_info(station_info['system_id'])
+    entries = [
+        {
+            'type': 'id',
+            'value': station_id
+        },
+        {
+            'type': 'text',
+            'title': 'System',
+            'value': system_info['name'],
+            'url': reverse("market:system", kwargs={'system_id': station_info['system_id']})
+        },
+        {
+            'type': 'coord',
+            'title': 'Position',
+            'value': {
+                'x': station_info['position']['x'],
+                'y': station_info['position']['y'],
+                'z': station_info['position']['z']
+            }
+        }
+    ]
+    context = {
+        'title': station_info['name'],
+        'entries': entries
+    }
+    return render(request, 'market/basic.html', context)
 
