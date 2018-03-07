@@ -45,3 +45,7 @@ def stargate_info(stargate_id):
 
 def station_info(station_id):
     return client.execute_op('get_universe_stations_station_id', station_id=station_id).data
+
+
+def structure_orders(structure_id):
+    return client.execute_op('get_markets_structures_structure_id', structure_id=structure_id).data

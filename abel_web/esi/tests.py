@@ -126,3 +126,9 @@ class TestQueries(TestCase):
         client.execute_op.assert_called_with('get_universe_stations_station_id', station_id=13)
         self.assertEqual(return_value, "station_info")
 
+    @patch("esi.queries.client")
+    def test_structure_orders(self, client):
+        client.execute_op.return_value.data = "orders"
+        return_value = esi.queries.structure_orders(13)
+        client.execute_op.assert_called_with('get_markets_structures_structure_id', structure_id=13)
+        self.assertEqual(return_value, "orders")
